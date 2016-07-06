@@ -14,7 +14,6 @@ GLuint loadAndCompileShader(GLenum shaderType, const std::string& path)
 	{
 		throw std::runtime_error(std::string("Can't open shader file ") + path);
 	}
-
 	std::stringstream buffer;
 	buffer << f.rdbuf();
 
@@ -126,7 +125,7 @@ public:
 		:frag(_frag), vert(_vert)
 	{
 		id = glCreateProgram();
-		if (!program) {
+		if (!id) {
 			throw std::runtime_error("Can't create GLSL program.");
 		}
 		glAttachShader(id, vert.getID());
@@ -139,7 +138,7 @@ public:
 		frag = Shader(_frag, GL_FRAGMENT_SHADER);
 		vert = Shader(_vert, GL_VERTEX_SHADER);
 		id = glCreateProgram();
-		if (!program) {
+		if (!id) {
 			throw std::runtime_error("Can't create GLSL program.");
 		}
 		glAttachShader(id, vert.getID());

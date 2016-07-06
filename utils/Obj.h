@@ -2,8 +2,8 @@
 #define TINYOBJLOADER_IMPLEMENTATION // define this in only *one* .cc
 #include <iostream>
 #include <TOBJ/tiny_obj_loader.h>
-
 #include <GLFW/glfw3.h>
+
 class Obj
 {
 	Obj() {};
@@ -19,7 +19,7 @@ class Obj
 		if (!ret) {
 			exit(1);
 		}
-		std::cout << "Load Obj : " << _p  << std::endl;
+		std::cout << "Load Obj : " << path << std::endl;
 		std::cout << "# of shapes    : " << shapes.size() << std::endl;
 		std::cout << "# of materials : " << materials.size() << std::endl;
 	}

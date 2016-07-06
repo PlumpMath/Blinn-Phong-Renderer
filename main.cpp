@@ -9,68 +9,104 @@
 // User includes
 # include "utils/Callbacks.h"
 # include "utils/Shader.h"
+# include "utils/Helper.h"
+
+#define SCREENWIDTH 1280
+#define SCREENHEIGHT 720
+
 GLuint program;
+GLuint modelVAO;
+GLFWwindow* window;
 
 
-int main()
+void update(const double &difference_time)
 {
-	// Setup window
+
+}
+
+void render()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	/*Bind the vertex array*/
+
+	/*Bind shader*/
+
+	/*Setup rendering context*/
+
+}
+
+/* Init GLFW and window*/
+void init_stage()
+{
+
+	// GLFW init
 	glfwSetErrorCallback(GLFW_error_callback);
 	if (!glfwInit())
-		return 1;
+		Helper::log_error("Failed to init GLFW\n");
+		
+	/* Now, let's give GLFW hints about the window we need */
+	/* We want OpenGL version at least 3.3 */
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	/* We will also request a bleeding-edge core profile*/
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 #if __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
+	/* IMPORTANT: Tell GLFW to give us a framebuffer which can do sRGB */
+	glfwWindowHint(GLFW_SRGB_CAPABLE, TRUE);
 
-	// GLFW window init
-	GLFWwindow* window = glfwCreateWindow(1280, 720, "ImGui OpenGL3 example", NULL, NULL);
+	
+	// Create GLFW window 
+	window = glfwCreateWindow(SCREENWIDTH, SCREENHEIGHT, "Color management demo", NULL, NULL);
 	if (window == nullptr)
 	{
-		std::cout << "Failed to create GLFW windonw" << std::endl;
 		glfwTerminate();
-		return -1;
+		Helper::log_error("Failed to create GLFW windonw\n");
 	}
 	glfwMakeContextCurrent(window);
-
-	// gl3w init
-	gl3wInit();
+	glfwSetKeyCallback(window, GLFW_key_callback); /*Setup key call back function*/
 
 
-	// Viewport init
-	//Instead of setting a width and height of 800 and 600 respectively 
-	//we take the viewport dimensions from GLFW such that it also works on high DPI screens (like Apple's retina displays).
-	int width, height;
-	glfwGetFramebufferSize(window, &width, &height);
-	glViewport(0, 0, width, height);
+	// gl3w init, load opengl
+	if (gl3wInit()) 
+		Helper::log_error("failed to initialize OpenGL\n");
+	if (!gl3wIsSupported(4, 3)) 
+		Helper::log_error("OpenGL 4.3 not supported\n");
+}
+void setup_stage()
+{
 
-
-	program = createVertexFragmentProgram("shaders/vshader.vert", "shaders/fshader.frag");
-
-	// callback functions
-	glfwSetKeyCallback(window, GLFW_key_callback);
-
-	// glfwWindowShouldClose 는 매 루프마다 close instruction이 왔는지 검사한다.
-	// glfwpollevents 는 아무종류의 이벤트가 트리거되면 (키보드, 마우스 등) corresponding callback function을 콜한다.
-	// gflwswapbuffer는 윈도우마다 가지고 있는 front와 backbuffer를 스왑한다.
+}
+void main_loop()
+{
+	double previous_time = glfwGetTime();
+	double current_time, difference_time;
 	while (!glfwWindowShouldClose(window))
 	{
+		current_time = glfwGetTime();
+		difference_time = current_time - previous_time;
+		previous_time = current_time;
+		update(difference_time);
+		render();
+		glfwSwapBuffers(window);
 		glfwPollEvents();
-		// Back buffer에 그리기 시작
-		// Rendering command 호출
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-
-		glfwSwapBuffers(window); // front와 back buffer 스왑(그려놓은 이미지 디스플레이 시작)
 	}
-
-	// Cleanup
+}
+void cleanup()
+{
 	glfwTerminate();
 	glDeleteProgram(program);
+}
+
+int main()
+{
+	init_stage();
+	setup_stage();
+	main_loop();
+	cleanup();
 	return 0;
 }

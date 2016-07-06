@@ -124,12 +124,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="gl3w.c" />
+    <ClCompile Include="..\include\gl3w\GL\gl3w.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="utils\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils\Callbacks.h" />
+    <ClInclude Include="utils\Obj.h" />
     <ClInclude Include="utils\Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
