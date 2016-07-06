@@ -24,6 +24,15 @@
     <ClCompile Include="..\include\gl3w\GL\gl3w.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="utils\Callbacks.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\Helper.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\Obj.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils\Callbacks.h">
@@ -33,6 +42,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="utils\Obj.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Helper.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

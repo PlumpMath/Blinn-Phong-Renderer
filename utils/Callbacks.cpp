@@ -1,4 +1,5 @@
 # include "Callbacks.h"
+
 void GLFW_key_callback(GLFWwindow* window, int keyCode, int scanCode, int action, int modifiers)
 {
 	switch (keyCode)

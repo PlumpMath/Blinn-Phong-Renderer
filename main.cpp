@@ -18,6 +18,46 @@ GLuint program;
 GLuint modelVAO;
 GLFWwindow* window;
 
+/*Prototype*/
+void update(const double &difference_time);
+void render();
+void init_stage();
+void setup_stage();
+void main_loop();
+void cleanup();
+GLuint vaoFactory(GLuint loc_attrib, GLuint normal_attrib, GLuint texcoord_atrrib);
+
+
+int main()
+{
+	init_stage();
+	setup_stage();
+	main_loop();
+	cleanup();
+	return 0;
+}
+
+/*OpenGL 4.3 version. */
+GLuint vaoFactory(GLuint loc_attrib, GLuint normal_attrib, GLuint texcoord_attrib)
+{
+	GLuint array;
+	glGenVertexArrays(1, &array);
+	
+	// Enable my attributes
+	glEnableVertexAttribArray(loc_attrib);
+	glEnableVertexAttribArray(normal_attrib);
+	glEnableVertexAttribArray(texcoord_attrib);
+	// Set up the formats for my attributes
+	glVertexAttribFormat(loc_attrib, 3, GL_FLOAT, GL_FALSE, 0);
+	glVertexAttribFormat(normal_attrib, 3, GL_FLOAT, GL_FALSE, 12);
+	glVertexAttribFormat(texcoord_attrib, 2, GL_FLOAT, GL_FALSE, 24);
+	// Make my attributes all use binding 0
+	glVertexAttribBinding(loc_attrib, 0);
+	glVertexAttribBinding(normal_attrib, 0);
+	glVertexAttribBinding(texcoord_attrib, 0);
+	
+	return array;
+}
 
 void update(const double &difference_time)
 {
@@ -39,12 +79,10 @@ void render()
 /* Init GLFW and window*/
 void init_stage()
 {
-
 	// GLFW init
 	glfwSetErrorCallback(GLFW_error_callback);
 	if (!glfwInit())
 		Helper::log_error("Failed to init GLFW\n");
-		
 	/* Now, let's give GLFW hints about the window we need */
 	/* We want OpenGL version at least 3.3 */
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -59,7 +97,6 @@ void init_stage()
 	/* IMPORTANT: Tell GLFW to give us a framebuffer which can do sRGB */
 	glfwWindowHint(GLFW_SRGB_CAPABLE, TRUE);
 
-	
 	// Create GLFW window 
 	window = glfwCreateWindow(SCREENWIDTH, SCREENHEIGHT, "Color management demo", NULL, NULL);
 	if (window == nullptr)
@@ -71,10 +108,10 @@ void init_stage()
 	glfwSetKeyCallback(window, GLFW_key_callback); /*Setup key call back function*/
 
 
-	// gl3w init, load opengl
-	if (gl3wInit()) 
+												   // gl3w init, load opengl
+	if (gl3wInit())
 		Helper::log_error("failed to initialize OpenGL\n");
-	if (!gl3wIsSupported(4, 3)) 
+	if (!gl3wIsSupported(4, 3))
 		Helper::log_error("OpenGL 4.3 not supported\n");
 }
 void setup_stage()
@@ -100,13 +137,4 @@ void cleanup()
 {
 	glfwTerminate();
 	glDeleteProgram(program);
-}
-
-int main()
-{
-	init_stage();
-	setup_stage();
-	main_loop();
-	cleanup();
-	return 0;
 }
