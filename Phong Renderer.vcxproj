@@ -127,12 +127,14 @@
     <ClCompile Include="..\include\gl3w\GL\gl3w.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="utils\Callbacks.cpp" />
+    <ClCompile Include="utils\Camera.cpp" />
     <ClCompile Include="utils\Helper.cpp" />
     <ClCompile Include="utils\Obj.cpp" />
     <ClCompile Include="utils\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils\Callbacks.h" />
+    <ClInclude Include="utils\Camera.h" />
     <ClInclude Include="utils\Helper.h" />
     <ClInclude Include="utils\Obj.h" />
     <ClInclude Include="utils\Shader.h" />

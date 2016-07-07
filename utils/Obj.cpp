@@ -15,6 +15,47 @@ Obj::Obj(const std::string &_p)
 	std::cout << "Load Obj : " << path << std::endl;
 	std::cout << "# of shapes    : " << shapes.size() << std::endl;
 	std::cout << "# of materials : " << materials.size() << std::endl;
+	upload2GPU();
+	
+}
+
+void Obj::createVAO()
+{
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	const int pos_attrib = 0;
+	const int nor_attrib = 1;
+	const int tex_attrib = 2;
+
+	// Enable my attributes
+	glEnableVertexAttribArray(pos_attrib);
+	glEnableVertexAttribArray(nor_attrib);
+	glEnableVertexAttribArray(tex_attrib);
+
+	// Set up the formats for my attributes
+	glVertexAttribFormat(pos_attrib, 3, GL_FLOAT, GL_FALSE, 0);
+	glVertexAttribFormat(nor_attrib, 3, GL_FLOAT, GL_FALSE, 12);
+	glVertexAttribFormat(tex_attrib, 2, GL_FLOAT, GL_FALSE, 24);
+	glBindVertexArray(0);
+}
+
+void Obj::draw(GLuint program)
+{
+	glBindVertexArray(vao);
+	const int pos_attrib = 0;
+	const int nor_attrib = 1;
+	const int tex_attrib = 2;
+	// Set up binding points for all attrib
+	// Binding index = The index of the vertex buffer binding with which to associate the generic vertex attribute.
+	for (size_t i = 0; i < shapes.size(); i++)
+	{
+		glVertexAttribBinding(pos_attrib, position_buffers[i]);
+		glVertexAttribBinding(nor_attrib, normal_buffers[i]);
+		glVertexAttribBinding(tex_attrib, texcoord_buffers[i]);
+		glUseProgram(program);
+	}
+
+	glBindVertexArray(0);
 }
 
 void Obj::upload2GPU()
@@ -30,7 +71,7 @@ void Obj::upload2GPU()
 		glBufferData(GL_ARRAY_BUFFER, numb * sizeof(float), &shapes[i].mesh.positions[0], GL_STATIC_DRAW);
 		position_buffers.push_back(temp);
 	}
-
+	
 	/* Upload normal data */
 	for (size_t i = 0; i < numbBuffer; i++)
 	{

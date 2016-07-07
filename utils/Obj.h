@@ -17,6 +17,8 @@ class Obj
 	void draw(GLuint vao);
 	
 private:
+	GLuint vao;
+
 	std::vector<GLuint> position_buffers;
 	std::vector<GLuint> normal_buffers;
 	std::vector<GLuint> texcoord_buffers;
@@ -27,6 +29,7 @@ private:
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
 	void upload2GPU();
+	void createVAO();
 };
 
 
