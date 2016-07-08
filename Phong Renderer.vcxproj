@@ -124,6 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Color management\ColorManagement.cpp" />
     <ClCompile Include="..\include\gl3w\GL\gl3w.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="utils\Callbacks.cpp" />
@@ -133,6 +134,7 @@
     <ClCompile Include="utils\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Color management\ColorManagement.h" />
     <ClInclude Include="utils\Callbacks.h" />
     <ClInclude Include="utils\Camera.h" />
     <ClInclude Include="utils\Helper.h" />
